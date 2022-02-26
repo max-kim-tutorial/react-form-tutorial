@@ -154,17 +154,88 @@ useImperativeHandle(
 
 ## react-hook-form
 
-### Text input
+### 느낌적인 느낌
 
-### Radio, Checkbox input
+편하긴 하다
 
-### Select Input
+- form이 그렇게 안복잡한 경우는 하나의 컴포넌트에서 form을 만드는게 제일 좋다 => 의존성이 숨지 않는다
+- register너무 name이나 value, onChange 속성 같은 것들을 가리는 경향이 있는 것이 아닌가,, -> 수동으로 짝지어주는 방법도 존재는 한다
+- 에러 메시지 제공하는 인터페이스가... 너무 우겨넣어진것 같은 느낌..
+- form이 복잡해서 모든 input요소들을 form하나에 때려박지 못할 때 formContext를 쓰면 별 문제없이 사용할 수 있을 거 같기는 하다.
+  - 의존성을 숨기는 경향은 역시 존재
+  - 근데 그래도 useForm의 리턴값들을 일일히 prop으로 받는 접근보다 나은거같은데,,어짜피 나눠져야 한다면 form이 있는 최상위 컴포넌트에서 의존성을 제대로 드러내기는 힘이 든다.
+  - context가 갖는 퍼포먼스 이슈가 똑같이 존재하는 것 같은데, 독스에는 typescript에서 하기에는 약간 번거로운 방식으로 최적화를 하라고(memo 사용해서) 한당 -> 물론 입력값 자체는 Uncontrolled라 렌더링 이슈가 발생하지는 않아 보인다
+- mode기능 편하당
+- register가 대체하는 속성들 : `({ onChange, onBlur, name, ref })` value는 안 건든다
+- 다중 쳌박스 같은 경우는 같은 이름으로 register하면 되고 value를 달리 해주면 된다.
 
-### validation, error, errorMessage
+### 의존성 노출과 form 분리
 
-### watch, 값이 입력됨과 동시에 validation
+ref없이 register도 가능한데, 좀 귀찮은 면이 많아지겠지만 이런식으로 등록도 가능
 
-### submit과 특정 동작
+```jsx
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
+export default function App() {
+  const { register, handleSubmit, setValue, setError } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  // 얘는 이렇게 써도 되는구나
+  // 뭔가 리턴값이랑 함께 안에서 뭐 하는듯? -> 객체 등록하고 그런거 하나보다
+  useEffect(() => {
+    register('firstName', { required: true });
+    register('lastName');
+  }, []);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input
+        name="firstName"
+        onChange={(e) => setValue('firstName', e.target.value)}
+      />
+      <input
+        name="lastName"
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value === 'test') {
+            // 밸리데이션을 여기다가 명령적으로 지정
+            setError('lastName', 'notMatch');
+          } else {
+            setValue('lastName', e.target.value);
+          }
+        }}
+      />
+      <button>Submit</button>
+    </form>
+  );
+}
+```
+
+React hook form 쓰면서, form안에서 하위 Inputs라는 관계는 어떻게 효과적으로 드러낼 수 있을까???? 아직 잘 모르겟다..
+
+Controller을 쓰는 상화엥서도 renderProps패턴을 사용해서 form에서 필요한 부분들 명시하는 방식으로 할 수 있어 보이긴 하는데 잘 모르겠음
+
+```jsx
+<Controller
+  control={control}
+  name="test"
+  render={({
+    field: { onChange, onBlur, value, name, ref },
+    fieldState: { invalid, isTouched, isDirty, error },
+    formState,
+  }) => (
+    <Checkbox
+      onBlur={onBlur} // notify when input is touched
+      onChange={onChange} // send value to hook form
+      checked={value}
+      inputRef={ref}
+    />
+  )}
+/>
+```
+
+controlled form이 더 적합한 상황도 있을까? 잘 모르겠음...
 
 ## reference
 
