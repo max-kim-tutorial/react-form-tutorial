@@ -42,7 +42,13 @@
 - label을 input과 연결시키면 웹 접근성 측면에서 좋고, label을 클릭해 input 자체에 초점을 맞추거나 활성화시킬 수 잇음 -> 약간 한 요소처럼 움직이는 경향이 생김
 - input의 id속성과 label의 for 속성을 연결함
 
-### select
+### select, option
+
+- select : label연결 가능, value속성에는 선택한 option의 value값이 저장됨
+  - multiple: 다수항목 동시 선택
+  - size: 한번에 노출되는 항목의 수
+- option
+  - optgroup 사용하면 드롭다운 내에서 옵션 그룹 나눌 수 있음
 
 ### form
 
