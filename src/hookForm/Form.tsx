@@ -3,8 +3,14 @@ import PasswordForm from './PasswordForm';
 import IntroduceForm from './IntroduceForm';
 
 function ReactHookForm() {
-  const methods = useForm({ mode: 'all' });
+  const methods = useForm({
+    mode: 'all',
+    defaultValues: {
+      password: 'default value 설정',
+    },
+  });
   const onSubmit = (data: any) => console.log(data);
+
   console.log('렌더링');
 
   return (

@@ -13,6 +13,7 @@ const useOnchangeValidator = ({ validators }: UseOnchangeValidatorOptions) => {
   });
 
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     const errorMessages = validators
       .filter((validator) => !validator.validate(e.target.value))
       .map((validator) => ({

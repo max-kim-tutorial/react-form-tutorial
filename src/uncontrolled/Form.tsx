@@ -7,16 +7,22 @@ import PasswordForm from './PasswordForm';
 function UncontrolledForm() {
   const passwordRef = useRef({
     values: { password: '', passwordConfirm: '' },
-    errors: { password: null, passwordConfirm: null },
+    errors: {
+      password: { isError: false, errorMessages: [] },
+      passwordConfirm: null,
+    },
   });
   const introduceRef = useRef({ values: { introduce: [] } });
   const nationalityRef = useRef({ values: { nationality: '' } });
   const bloodTypeRef = useRef({ values: { bloodType: '' } });
 
+  // 여기서 button을 조건에 따라 disable하고 싶은 경우라면..?
+  // 음......확실히 이건 좀 곤란하겠다
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(bloodTypeRef.current);
-    console.log(passwordRef.current);
+    console.log(passwordRef.current.errors);
     console.log(nationalityRef.current.values);
     console.log(introduceRef.current.values);
   };

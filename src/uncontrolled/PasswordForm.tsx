@@ -67,6 +67,7 @@ const PasswordForm = forwardRef(
         <Input
           ref={passwordRef}
           id="password"
+          defaultValue="default value 설정"
           name="pw"
           onChange={handlePassword}
         />
