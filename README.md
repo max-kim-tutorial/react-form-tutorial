@@ -171,6 +171,8 @@ state 없이 저걸 하려면 ref의 변화를 관장하는 onChange핸들러에
 
 확실히 재랜더링 면에서 효과를 볼 수 있는 경우에만 uncontrolled form을 이용하는게 좋아보인다. 복잡하지 않고, 거의 값만 필요한 인풋인데 주변 UI를 컨트롤하는 상태값만 추가로 몇개 필요한 경우라면 추가적인 상태값을 만들어 onChange 안에서 상태값을 변경하는 식으로 쓰는 편이 좋을수도 있다. 트레이드오프를 잘 생각해서 짜야되겄다. 아니면 react-hook-form 쓰던지..
 
+useImperativeHandle을 사용해 ref로 구현한 부분 인풋들을 부모로 끌어올려 쓰는 경우에 submit 버튼을 disable하는 로직을 만들기는 힘들다. ref들이 watching이 되지 않기 때문에..
+
 ## react-hook-form
 
 ### 느낌적인 느낌
